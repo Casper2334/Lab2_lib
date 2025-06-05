@@ -10,5 +10,3 @@ def get_book_model(db):
         def __repr__(self):
             return f'<Book {self.title}>'
     return Book
-
-# Ініціалізація відбудеться пізніше в app.py

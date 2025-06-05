@@ -1,4 +1,4 @@
-from database import db  # Імпортуємо db із database.py
+from database import db
 
 class Reader(db.Model):
     __tablename__ = 'reader'
