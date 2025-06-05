@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список книг</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>Список книг</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <a href="{{ url_for('new_book') }}" class="btn">Додати книгу</a>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Назва</th>
+            <th>Автор</th>
+            <th>Рік</th>
+            <th>Читач</th>
+            <th>Дії</th>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td data-label="ID">{{ book.id }}</td>
+            <td data-label="Назва">{{ book.title }}</td>
+            <td data-label="Автор">{{ book.author }}</td>
+            <td data-label="Рік">{{ book.year }}</td>
+            <td data-label="Читач">{% if book.reader_id and book.reader %}{{ book.reader.name }} (ID: {{ book.reader_id }}){% else %}Без читача{% endif %}</td>
+            <td data-label="Дії">
+                <a href="{{ url_for('edit_book', book_id=book.id) }}" class="btn">Редагувати</a>
+                <form action="{{ url_for('delete_book', book_id=book.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn delete">Видалити</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
